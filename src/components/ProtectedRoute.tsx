@@ -8,8 +8,12 @@ interface Props {
 }
 
 const ProtectedRoute = ({ children }: Props) => {
-  const token = useAuthStore((state) => state.token);
+  const { token, loading } = useAuthStore();
   const addNotification = useNotificationStore((state) => state.addNotification);
+
+   if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if(!token)
     addNotification("You must be logged in to access this page.");

@@ -5,11 +5,14 @@ interface AuthState {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
+  loading: boolean;
+  checkAuth: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   token: null,
   isAuthenticated: false,
+  loading: true,
 
   login: async (email: string, password: string) => {
     try {
@@ -24,18 +27,29 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       if (!res.ok) {
         const errorData = await res.json();
-        return { success: false, message: errorData.error };
+        set({ loading: false });
+        return { success: false, message: errorData.error, loading: false };
       }
 
       const data = await res.json();
-      set({ token: data.token, isAuthenticated: true });
-      return { success: true, message: "Login successful!" };
+      set({ token: data.token, isAuthenticated: true, loading: false });
+      localStorage.setItem("authToken", data.token);
+      return { success: true, message: "Login successful!, loading: false" };
     } catch (err) {
+      set({ loading: false });
       return { success: false, message: "Network error: " + (err as Error).message };
     }
   },
 
+  checkAuth: () => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      set({ token, isAuthenticated: true, loading: false });
+    }
+  },
+
   logout: () => {
-    set({ token: null, isAuthenticated: false });
+    localStorage.removeItem("authToken");
+    set({ token: null, isAuthenticated: false, loading: false });
   },
 }));

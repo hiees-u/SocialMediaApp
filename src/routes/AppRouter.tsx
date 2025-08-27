@@ -5,8 +5,16 @@ import AnalyticsPage from "@/pages/AnalyticsPage";
 import Header from "@/layouts/HeaderLayout";
 import path from "@/utils/path";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuthStore } from "@/store/authStore";
+import { useEffect } from "react";
 
 export default function AppRouter() {
+  const checkAuth = useAuthStore((state) => state.checkAuth);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+  
   return (
     <Router>
       <div>
