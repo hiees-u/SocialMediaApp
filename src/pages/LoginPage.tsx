@@ -1,63 +1,44 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useNotificationStore } from '@/store/notificationStore';
-import React, { useState } from 'react';
+import { useState } from "react";
+import { useAuthStore } from "@/store/authStore";
+import { useNotificationStore } from "@/store/notificationStore"; // store noti bạn tạo riêng
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const { notifications, addNotification } = useNotificationStore();
+export default function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const login = useAuthStore((state) => state.login);
+  const addNotification = useNotificationStore((state) => state.addNotification);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const res = await fetch('https://reqres.in/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': 'reqres-free-v1',
-        },
-        body: JSON.stringify({ email: username, password }),
-      });
-      if (!res.ok) {
-        const errorData = await res.json();
-        addNotification(`Error: ${errorData.error}`);
-        return;
-      }
-      const data = await res.json();
-      addNotification('Login successful!');
-    } catch (err) {
-      addNotification('Network error: ' + (err as Error).message);
-    }
+    const result = await login(username, password);
+    if(result.success) {
+      navigate("/");
+    } 
+    addNotification(result.message);
   };
+  //eve.holt@reqres.in
 
   return (
-    <div className="container">
-      <p className="text-2xl font-bold">LOGIN</p>
-      <div className="m-2 flex flex-row items-center">
-        <Label className="flex-1 text-left">Email: </Label>
-        <Input
-          className="flex-[2]"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div className="m-2 flex flex-row items-center">
-        <Label className="flex-1 text-left">Password: </Label>
-        <Input
-          className="flex-[2]"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <div className="mt-3">
-        <Button type='submit' onClick={handleSubmit}>Login</Button>
-      </div>
-      <p>{notifications.map(n => <span key={n.id}>{n.message}</span>)}</p>
-    </div>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto mt-10">
+      <input
+        type="email"
+        placeholder="Email"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        className="border rounded p-2 bg-slate-100"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="border rounded p-2 bg-slate-100"
+      />
+      <button type="submit" className="bg-blue-500 text-white py-2 rounded">
+        Login
+      </button>
+    </form>
   );
-};
-
-export default LoginPage;
+}

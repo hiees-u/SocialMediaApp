@@ -1,8 +1,8 @@
 const Path = {
-    home: '/',
-    login: '/login',
-    analytics: '/analytics',
-    notFound: '*'
+    home: { titel: 'Home', path: '/' },
+    analytics: { titel: 'Analytics', path: '/analytics' },
+    login: { titel: 'Login', path: '/login' },
+    notFound: { titel: 'Not Found', path: '*' },
 };
 
 export default Path;
