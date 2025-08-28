@@ -9,6 +9,7 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/button';
 import { useNotificationStore } from '@/store/notificationStore';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Header() {
   const pathEntries = Object.entries(path);
@@ -40,6 +41,7 @@ export default function Header() {
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}
+        <ThemeToggle />
       </NavigationMenu>
     </header>
   );
