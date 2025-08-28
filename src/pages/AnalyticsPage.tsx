@@ -1,5 +1,7 @@
+import PostsTable from "../components/AnalyticsTable";
+
 const AnalyticsPage = () => {
-  return <div>Analytics Page</div>;
+  return <><PostsTable/></>;
 };
 
 export default AnalyticsPage;
