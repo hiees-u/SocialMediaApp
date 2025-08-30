@@ -1,4 +1,4 @@
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import AnalyticsPage from "@/pages/AnalyticsPage";
@@ -16,7 +16,7 @@ export default function AppRouter() {
   }, [checkAuth]);
   
   return (
-    <HashRouter>
+    // <HashRouter>
       <div>
         <Header />
         <main className="pt-16">
@@ -27,6 +27,6 @@ export default function AppRouter() {
           </Routes>
         </main>
       </div>
-    </HashRouter>
+    // </HashRouter>
   );
 }
