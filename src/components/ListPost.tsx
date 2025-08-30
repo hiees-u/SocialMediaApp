@@ -11,6 +11,7 @@ import { usePostStore } from '@/store/postStore';
 import { Button } from './ui/button';
 import { Heart } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { cn } from '@/lib/utils';
 
 export default function ListPost() {
   const posts = usePostStore((state) => state.posts);
@@ -19,7 +20,7 @@ export default function ListPost() {
 
   return (
     <>
-      {!posts || posts.length === 0 ? (
+      {!posts || !posts.length ? (
         <div>No posts available.</div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -46,9 +47,10 @@ export default function ListPost() {
                     onClick={() => token && toggleLike(post.id)}
                   >
                     <Heart
-                      className={`w-4 h-4 ${
+                      className={cn(
+                        'w-4 h-4',
                         hasLiked ? 'text-red-500 fill-red-500' : 'text-gray-500'
-                      }`}
+                      )}
                     />{' '}
                     {post.likes.likes}
                   </Button>
