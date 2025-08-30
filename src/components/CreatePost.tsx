@@ -1,6 +1,5 @@
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { useNotificationStore } from '@/store/notificationStore';
 import { usePostStore } from '@/store/postStore';
+import schemaCreate from '@/schemas/post';
 
 interface CreatePostFormProps {
   onClose: () => void;
@@ -17,14 +17,6 @@ interface PostFormValues {
   title: string;
   content: string;
 }
-
-const schema = yup.object({
-  title: yup.string().required('Title is required').min(3, 'Min 3 characters'),
-  content: yup
-    .string()
-    .required('Content is required')
-    .min(10, 'Min 10 characters'),
-});
 
 export default function CreatePostForm({ onClose }: CreatePostFormProps) {
   const addNotification = useNotificationStore(
@@ -38,7 +30,7 @@ export default function CreatePostForm({ onClose }: CreatePostFormProps) {
     formState: { errors },
     reset,
   } = useForm<PostFormValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaCreate),
     defaultValues: {
       title: '',
       content: '',
