@@ -22,6 +22,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto mt-10">
+      <span>eve.holt@reqres.in</span>
       <input
         type="email"
         placeholder="Email"
