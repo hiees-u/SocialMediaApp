@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const CreatePostForm = lazy(() => import("@/components/Containers/CreatePostContainer"));
+const CreatePostForm = lazy(() => import("@/components/CreatePostComponent"));
 
 export default function CreatePostDialog() {
   const [open, setOpen] = useState(false);

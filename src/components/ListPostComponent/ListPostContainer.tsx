@@ -1,5 +1,5 @@
 import { usePostStore } from "@/store/postStore";
-import ListPostView from "../Views/ListPostView";
+import ListPostView from "./ListPostView";
 import { useAuthStore } from "@/store/authStore";
 
 export default function ListPostContainer() {

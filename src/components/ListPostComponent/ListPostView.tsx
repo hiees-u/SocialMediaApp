@@ -43,6 +43,12 @@ export default function ListPostView({
               >
                 {post.content}
               </CardDescription>
+              
+              <CardDescription
+                className={cn('line-clamp-3 text-sm break-words')}
+              >
+                {post.category}
+              </CardDescription>
             </CardContent>
             <CardFooter className={cn('flex justify-between items-center')}>
               <Button

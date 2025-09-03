@@ -5,7 +5,9 @@ export interface Post {
   id: number;
   title: string;
   content: string;
+  category: string;
   likes: Likes;
+  imageUrl?: string | null;
 }
 
 export interface Likes {
@@ -15,7 +17,7 @@ export interface Likes {
 
 interface PostState {
   posts: Post[];
-  addPost: (title: string, content: string) => void;
+  addPost: (title: string, content: string, category: string, imageFile?: File | null) => void;
   removePost: (id: number) => void;
   clearPosts: () => void;
   toggleLike: (id: number) => void;
@@ -24,15 +26,30 @@ interface PostState {
 let nextId = 1;
 
 export const usePostStore = create<PostState>((set) => ({
-  posts: [],
+  posts: [],  
 
-  addPost: (title, content) =>
-    set((state) => ({
+  addPost: (title, content, category, imageFile = null) =>
+  set((state) => {
+    let imageUrl: string | null = null;
+
+    if (imageFile) {
+      imageUrl = URL.createObjectURL(imageFile);
+    }
+
+    return {
       posts: [
         ...state.posts,
-        { id: nextId++, title, content, likes: { likes: 0, likeTokens: [] } },
+        {
+          id: nextId++,
+          title,
+          content,
+          category,
+          imageUrl,
+          likes: { likes: 0, likeTokens: [] },
+        },
       ],
-    })),
+    };
+  }),
 
   removePost: (id: number) =>
     set((state) => ({

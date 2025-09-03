@@ -1,4 +1,4 @@
-import ListPostContainer from "@/components/Containers/ListPostContainer";
+import ListPostContainer from "@/components/ListPostComponent";
 import CreatePostDialog from "@/components/CreatePostDialog";
 
 export default function HomePage() {

@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuthStore } from "@/store/authStore";
 import { useNotificationStore } from "@/store/notificationStore";
 import { useNavigate } from "react-router-dom";
-import LoginFormView from "@/components/Views/LoginView";
+import LoginFormView from "@/components/LoginComponent/LoginView";
 import schemaLogin from "@/schemas/login";
 import type { LoginFormValues } from "@/type/type";
 

@@ -6,6 +6,11 @@ const schemaCreate = yup.object({
     .string()
     .required('Content is required')
     .min(10, 'Min 10 characters'),
+  category: yup.string().required('Category is required'),
+  image: yup
+  .mixed<FileList>()
+  .nullable()
+  .default(null)
 });
 
 export default schemaCreate;

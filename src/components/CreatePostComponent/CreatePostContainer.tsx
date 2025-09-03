@@ -3,11 +3,13 @@ import { useNotificationStore } from '@/store/notificationStore';
 import { usePostStore } from '@/store/postStore';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import CreatePostView from '../Views/CreatePostView';
+import CreatePostView from './CreatePostView';
 
 export interface PostFormValues {
   title: string;
   content: string;
+  category: string;
+  image: FileList | null;
 }
 
 interface CreatePostFormProps {
@@ -31,12 +33,15 @@ export default function CreatePosContainer({ onClose }: CreatePostFormProps) {
     defaultValues: {
       title: '',
       content: '',
+      category: "",
+      image: null
     },
   });
 
   const onSubmit = (data: PostFormValues) => {
+     const imageFile = data.image?.[0] ?? null;
     console.log('Creating post:', data);
-    addPost(data.title, data.content);
+    addPost(data.title, data.content, data.category, imageFile);
     addNotification('Post created successfully!');
     reset();
     onClose();
