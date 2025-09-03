@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useLoadingStore } from './loadingStore';
 
 interface AuthState {
   token: string | null;
@@ -18,7 +19,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   loading: true,
 
   login: async (email: string, password: string) => {
+    const { show, hide } = useLoadingStore.getState();
     try {
+      show();
       const res = await fetch('https://reqres.in/api/login', {
         method: 'POST',
         headers: {
@@ -37,9 +40,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       const data = await res.json();
       set({ token: data.token, isAuthenticated: true, loading: false });
       localStorage.setItem('authToken', data.token);
+      hide();
       return { success: true, message: 'Login successful!, loading: false' };
     } catch (err) {
       set({ loading: false });
+      hide();
       return {
         success: false,
         message: 'Network error: ' + (err as Error).message,
